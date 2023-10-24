@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -23,8 +22,13 @@ public class StudentService {
         return repository.save(dto);
     }
 
-    public Optional<Student> getStudentById(Long id) {
-        return repository.findById(id);
+    public StudentDTO getStudentById(Long id) {
+        return repository.findById(id)
+                .map(student -> new StudentDTO(student))
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "estudante não encontrado"
+                ));
     }
 
     public List<Student> listAllStudent() {
@@ -32,7 +36,15 @@ public class StudentService {
     }
 
     public void deleteStudent(Long id) {
-        repository.deleteById(id);
+        this.repository.findById(id)
+                .map(student -> {
+                repository.deleteById(id);
+                return Void.TYPE;
+                })
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "estudante não encontrado"
+                ));
     }
 
     public Student updateStudent(Long id, Student studentDTO) {
@@ -44,16 +56,6 @@ public class StudentService {
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "estudante não encontrado"));
     }
-
-//    public static Student updateFields(Student updateStudet, Student oldPlanet) {
-//        String name = updatePlanet.getName() != null ? updatePlanet.getName() : oldPlanet.getName();
-//        String climate = updatePlanet.getClimate() != null ? updatePlanet.getClimate() : oldPlanet.getClimate();
-//        String terrain = updatePlanet.getTerrain() != null ? updatePlanet.getTerrain() : oldPlanet.getTerrain();
-//        Planet planet = new Planet(name, climate, terrain);
-//        planet.setId(oldPlanet.getId());
-//        return planet;
-//    }
-
 
 
 

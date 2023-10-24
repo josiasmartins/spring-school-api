@@ -1,5 +1,6 @@
 package com.github.school.controllers;
 
+import com.github.school.domain.DTO.StudentDTO;
 import com.github.school.domain.Student;
 import com.github.school.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,13 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable("id") Long id) throws Exception {
-        return this.studentService.getStudentById(id)
-                .map(student -> student)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "estudante não encontrado"
-                ));
+    public StudentDTO getStudentById(@PathVariable("id") Long id) {
+        return this.studentService.getStudentById(id);
+//                .map(student -> student)
+//                .orElseThrow(() -> new ResponseStatusException(
+//                        HttpStatus.NOT_FOUND,
+//                        "estudante não encontrado"
+//                ));
     }
 
     @DeleteMapping("/{id}")

@@ -1,5 +1,6 @@
 package com.github.school.domain;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,7 +9,8 @@ import lombok.Data;
 @Data
 public class Student {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
