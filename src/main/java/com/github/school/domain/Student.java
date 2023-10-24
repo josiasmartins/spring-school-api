@@ -1,9 +1,11 @@
 package com.github.school.domain;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "tb_student")
+@Data
 public class Student {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
