@@ -27,6 +27,9 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public StudentDTO getStudentById(@PathVariable("id") Long id) {
+
+
+
         return this.studentService.getStudentById(id);
 //                .map(student -> student)
 //                .orElseThrow(() -> new ResponseStatusException(
@@ -46,8 +49,6 @@ public class StudentController {
     public Student update(@PathVariable("id") Long id, @RequestBody Student student) {
         return this.studentService.updateStudent(id, student);
     }
-
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Student> listAll() {

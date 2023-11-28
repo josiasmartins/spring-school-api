@@ -1,6 +1,7 @@
 package com.github.school.domain;
 
 
+import com.github.school.annotations.Searcheable;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ public class Student {
     private Long id;
 
     @Column(name = "name")
+    @Searcheable(alias = "naruto")
     private String name;
 
     @Column(name = "age")
