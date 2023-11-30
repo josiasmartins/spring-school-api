@@ -4,6 +4,7 @@ import com.github.school.annotations.Searcheable;
 import com.github.school.domain.DTO.StudentDTO;
 import com.github.school.domain.Student;
 import com.github.school.repositories.StudentRepository;
+import com.github.school.utils.Loggers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class StudentService {
 
         return repository.findById(id)
                 .map(student -> {
+
+                    Loggers.log(student);
+
                     this.validateField(Student.class, "name", null);
                     return new StudentDTO(student);
                 })

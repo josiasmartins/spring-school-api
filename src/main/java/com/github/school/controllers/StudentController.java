@@ -3,6 +3,7 @@ package com.github.school.controllers;
 import com.github.school.domain.DTO.StudentDTO;
 import com.github.school.domain.Student;
 import com.github.school.services.StudentService;
+import com.github.school.utils.Loggers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,6 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public StudentDTO getStudentById(@PathVariable("id") Long id) {
-
-
 
         return this.studentService.getStudentById(id);
 //                .map(student -> student)

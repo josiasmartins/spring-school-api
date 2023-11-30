@@ -1,5 +1,6 @@
 package com.github.school.domain.DTO;
 
+import com.github.school.annotations.Logger;
 import com.github.school.domain.Student;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class StudentDTO {
     private String name;
     private Integer age;
+    @Logger
     private String firstSemesterGrade;
     private String secondSemesterGrade;
     private String nameTeacher;
