@@ -22,7 +22,6 @@ public class StudentDTO {
     private String secondSemesterGrade;
     private String nameTeacher;
     private String roomNumber;
-
 //    public StudentDTO(
 //            String name,
 //            Integer age,
@@ -38,6 +37,7 @@ public class StudentDTO {
 //        this.nameTeacher = nameTeacher;
 //        this.roomNumber = roomNumber;
 //    }
+
 
     public StudentDTO(Student student) {
         this.name = student.getName();

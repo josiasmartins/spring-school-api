@@ -2,6 +2,7 @@ package com.github.school.services;
 
 import com.github.school.annotations.Searcheable;
 import com.github.school.domain.DTO.StudentDTO;
+import com.github.school.domain.DTO.Teste;
 import com.github.school.domain.Student;
 import com.github.school.repositories.StudentRepository;
 import com.github.school.utils.Loggers;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -34,7 +36,13 @@ public class StudentService {
         return repository.findById(id)
                 .map(student -> {
 
-                    Loggers.log(student);
+                    Teste teste = Teste.builder()
+                            .students(List.of(student))
+                            .name("tt")
+                            .lastName("tata")
+                                    .build();
+
+                    Loggers.log(teste);
 
                     this.validateField(Student.class, "name", null);
                     return new StudentDTO(student);
