@@ -6,6 +6,7 @@ import com.github.school.domain.DTO.Teste;
 import com.github.school.domain.Student;
 import com.github.school.repositories.StudentRepository;
 import com.github.school.utils.Loggers;
+import com.github.school.utils.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -42,7 +44,15 @@ public class StudentService {
                             .lastName("tata")
                                     .build();
 
-                    Loggers.log(teste);
+//                    Loggers.log(teste);
+
+                    System.out.println(teste.toString());
+
+                    Test.scanPropriedades(teste);
+
+//                    Map<String, Object> mapper = Test.processarObjeto(teste);
+
+//                    System.out.println(mapper);
 
                     this.validateField(Student.class, "name", null);
                     return new StudentDTO(student);

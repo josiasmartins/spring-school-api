@@ -8,58 +8,40 @@ import java.util.Map;
 
 public class Loggers {
 
-    public static void log(Object obj) {
-        Class<?> clazz = obj.getClass();
-        logFields(obj, clazz);
+    public static Map<String, String> log(Object obj) {
+        Map<String, String> logData = new HashMap<>();
+        logFields(obj, obj.getClass(), logData);
+        return logData;
     }
 
-    private static void logFields(Object obj, Class<?> clazz) {
+    private static void logFields(Object obj, Class<?> clazz, Map<String, String> logData) {
         Field[] fields = clazz.getDeclaredFields();
 
-        System.out.println(fields.length + " fields");
-        System.out.println(clazz + " class");
-
-        Map<String, String> logData = new HashMap<>();
-
         for (Field field : fields) {
-            if (field.isAnnotationPresent(Logger.class)) {
-                try {
-                    field.setAccessible(true);
-                    Object value = field.get(obj);
+            field.setAccessible(true);  // Torna o campo acessível
 
-                    // Adiciona apenas valores primitivos ao logData
-                    if (value != null && isPrimitive(value.getClass())) {
-                        logData.put(field.getName(), value.toString());
-                    } else {
-                        Class<?> superClass = clazz.getSuperclass();
-                        logFields(obj, superClass);
-                    }
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+            try {
+                Object value = field.get(obj);
+
+                if (isSimpleValue(value)) {
+                    logData.put(field.getName(), value != null ? value.toString() : "null");
+                } else if (value != null && !field.getType().isPrimitive()) {
+                    logFields(value, value.getClass(), logData);
                 }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
         }
 
-        System.out.println(logData);
-
-        // Recursively log fields of nested classes
-//        Class<?> superClass = clazz.getSuperclass();
-//        if (superClass != null) {
-//            logFields(obj, superClass);
-//        }
+        // Recursivamente loga campos de classes internas
+        Class<?>[] innerClasses = clazz.getDeclaredClasses();
+        for (Class<?> innerClass : innerClasses) {
+            logFields(obj, innerClass, logData);
+        }
     }
 
-    private static boolean isPrimitive(Class<?> type) {
-        return type.isPrimitive() ||
-                type == Boolean.class ||
-                type == Character.class ||
-                type == Byte.class ||
-                type == Short.class ||
-                type == Integer.class ||
-                type == Long.class ||
-                type == Float.class ||
-                type == String.class ||
-                type == Double.class;
+    private static boolean isSimpleValue(Object value) {
+        return value instanceof String || value instanceof Number || value instanceof Boolean;
     }
 
 }
