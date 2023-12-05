@@ -27,6 +27,11 @@ public class Teste3 {
         for (Field campo : campos) {
             campo.setAccessible(true);
 
+            // Ignorar campos estáticos, finais e sintéticos
+            if (isCampoIgnoravel(campo)) {
+                continue;
+            }
+
             if (campo.isAnnotationPresent(Logger.class)) {
                 try {
                     Object valor = campo.get(objeto);
@@ -39,12 +44,18 @@ public class Teste3 {
                         for (int i = 0; i < length; i++) {
                             scanPropriedadesRecursivamente(java.lang.reflect.Array.get(valor, i), nomePropriedade + "[" + i + "]", mapaDePropriedades);
                         }
+                    } else if (valor instanceof List<?>) {
+                        // Se for uma lista, itera sobre os elementos da lista
+                        List<?> lista = (List<?>) valor;
+                        for (int i = 0; i < lista.size(); i++) {
+                            scanPropriedadesRecursivamente(lista.get(i), nomePropriedade + "[" + i + "]", mapaDePropriedades);
+                        }
                     } else if (isColecaoImutavel(valor)) {
                         // Se for uma coleção imutável, cria uma cópia mutável antes de explorar
                         Object colecaoMutavel = criarCopiaMutavel(valor);
                         scanPropriedadesRecursivamente(colecaoMutavel, nomePropriedade, mapaDePropriedades);
                     } else {
-                        // Se o valor não for simples, array ou coleção imutável, chama recursivamente
+                        // Se o valor não for simples, array, lista ou coleção imutável, chama recursivamente
                         scanPropriedadesRecursivamente(valor, nomePropriedade, mapaDePropriedades);
                     }
                 } catch (IllegalAccessException e) {
@@ -57,9 +68,9 @@ public class Teste3 {
     private static boolean isTipoSimples(Object valor) {
         return (
                 valor instanceof String ||
-                valor instanceof Number ||
-                valor instanceof Boolean ||
-                valor == null
+                        valor instanceof Number ||
+                        valor instanceof Boolean ||
+                        valor == null
         );
     }
 
@@ -71,15 +82,16 @@ public class Teste3 {
     private static Object criarCopiaMutavel(Object valor) {
         // Cria uma cópia mutável da coleção imutável
         // (Este método precisa ser ajustado dependendo do tipo de coleção imutável que está sendo usada)
-        if (valor instanceof java.util.List) {
-            java.util.List<?> listaImutavel = (java.util.List<?>) valor;
+        if (valor instanceof List) {
+            List<?> listaImutavel = (List<?>) valor;
             return new java.util.ArrayList<>(listaImutavel);
-        } else if (valor instanceof java.util.Set) {
-            java.util.Set<?> conjuntoImutavel = (java.util.Set<?>) valor;
-            return new java.util.HashSet<>(conjuntoImutavel);
         } // Adicione outros casos conforme necessário
 
         return valor; // Se não for uma coleção conhecida, retorna o valor original
     }
 
+    private static boolean isCampoIgnoravel(Field campo) {
+        int mod = campo.getModifiers();
+        return Modifier.isStatic(mod) || Modifier.isFinal(mod) || campo.isSynthetic();
+    }
 }

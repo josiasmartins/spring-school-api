@@ -15,7 +15,7 @@ public class Teste {
 
     @Logger
     @Setter
-    public Student students;
+    public List<Student> students;
 
     @Logger
     private String name;

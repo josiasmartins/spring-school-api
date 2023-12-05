@@ -41,7 +41,7 @@ public class StudentService {
                 .map(student -> {
 
                     Teste teste = Teste.builder()
-                            .students(student)
+                            .students(List.of(student))
                             .name("tt")
                             .lastName("tata")
                                     .build();
