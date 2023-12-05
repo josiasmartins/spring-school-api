@@ -41,7 +41,7 @@ public class StudentService {
                 .map(student -> {
 
                     Teste teste = Teste.builder()
-                            .students(List.of(student))
+                            .students(student)
                             .name("tt")
                             .lastName("tata")
                                     .build();
@@ -52,7 +52,7 @@ public class StudentService {
 
 //                    Test.scanPropriedades(teste);
 
-                    Teste3.scanPropriedades(teste);
+                    Test2.scanPropriedades(teste);
 
 //                    Map<String, Object> mapper = Test.processarObjeto(teste);
 
