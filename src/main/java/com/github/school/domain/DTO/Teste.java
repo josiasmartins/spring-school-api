@@ -3,10 +3,7 @@ package com.github.school.domain.DTO;
 
 import com.github.school.annotations.Logger;
 import com.github.school.domain.Student;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -17,7 +14,8 @@ import java.util.List;
 public class Teste {
 
     @Logger
-    private List<Student> students;
+    @Setter
+    public List<Student> students;
 
     @Logger
     private String name;

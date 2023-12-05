@@ -7,6 +7,8 @@ import com.github.school.domain.Student;
 import com.github.school.repositories.StudentRepository;
 import com.github.school.utils.Loggers;
 import com.github.school.utils.Test;
+import com.github.school.utils.Test2;
+import com.github.school.utils.Teste3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,9 @@ public class StudentService {
 
                     System.out.println(teste.toString());
 
-                    Test.scanPropriedades(teste);
+//                    Test.scanPropriedades(teste);
+
+                    Teste3.scanPropriedades(teste);
 
 //                    Map<String, Object> mapper = Test.processarObjeto(teste);
 
