@@ -52,7 +52,7 @@ public class StudentService {
 
 //                    Test.scanPropriedades(teste);
 
-                    Test2.scanPropriedades(teste);
+                    Teste3.scanPropriedades(teste);
 
 //                    Map<String, Object> mapper = Test.processarObjeto(teste);
 

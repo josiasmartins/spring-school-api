@@ -12,7 +12,6 @@ public class Teste3 {
     public static Map<String, String> scanPropriedades(Object objeto) {
         Map<String, String> mapaDePropriedades = new HashMap<>();
         scanPropriedadesRecursivamente(objeto, "", mapaDePropriedades);
-        System.out.println(mapaDePropriedades);
         return mapaDePropriedades;
     }
 
@@ -27,7 +26,7 @@ public class Teste3 {
         for (Field campo : campos) {
             campo.setAccessible(true);
 
-            if (!Modifier.isStatic(campo.getModifiers())) {
+            if (campo.isAnnotationPresent(Logger.class)) {
                 try {
                     Object valor = campo.get(objeto);
                     String nomePropriedade = prefixo.isEmpty() ? campo.getName() : prefixo + "." + campo.getName();
@@ -55,7 +54,12 @@ public class Teste3 {
     }
 
     private static boolean isTipoSimples(Object valor) {
-        return valor instanceof String || valor instanceof Number || valor instanceof Boolean;
+        return (
+                valor instanceof String ||
+                valor instanceof Number ||
+                valor instanceof Boolean ||
+                valor == null
+        );
     }
 
     private static boolean isColecaoImutavel(Object valor) {
