@@ -12,6 +12,7 @@ public class Teste3 {
     public static Map<String, String> scanPropriedades(Object objeto) {
         Map<String, String> mapaDePropriedades = new HashMap<>();
         scanPropriedadesRecursivamente(objeto, "", mapaDePropriedades);
+        System.out.println(mapaDePropriedades);
         return mapaDePropriedades;
     }
 
